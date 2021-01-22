@@ -10,15 +10,15 @@ import static org.junit.jupiter.params.provider.Arguments.*;
 
 public class PasswordValidationTest {
 
-    @ParameterizedTest(name="Password {1} meets all criteria: {0}")
-    @MethodSource("password")
-    public void testValidatePassword(boolean[] expectedResult, String[] password) {
 
-        assertTrue(Arrays.equals(expectedResult, PasswordValidation.validatePassword(password)));
+    @ParameterizedTest(name="Single Password {1} meets all criteria: {0}")
+    @MethodSource("multiplePasswords")
+    public void testValidateMultiplePasswordS(boolean[] expectedResult, String[] passwords) {
+
+        assertTrue(Arrays.equals(expectedResult, PasswordValidation.validateMultiplePassWords(passwords)));
     }
 
-    static Stream<Arguments> password(){
-
+    static Stream<Arguments> multiplePasswords(){
         boolean[] expectedValues = new boolean[5];
         expectedValues[0] = false;
         expectedValues[1] = false;
@@ -35,6 +35,24 @@ public class PasswordValidationTest {
 
         return Stream.of(
                 arguments(expectedValues, passwords)
+        );
+    }
+
+    @ParameterizedTest(name="Single Password {1} meets all criteria: {0}")
+    @MethodSource("password")
+    public void testValidatePassword(boolean expectedResult, String password) {
+
+        assertEquals(expectedResult, PasswordValidation.validatePassword(password));
+    }
+
+    static Stream<Arguments> password(){
+        return Stream.of(
+                arguments(false, "Cookies"),
+                arguments(false, "longPassword"),
+                arguments(false, "ghhjagn89hhj"),
+                arguments(false, "BBHDGLLNNGTT890"),
+                arguments(true, "long89Password"),
+                arguments(true, "67extra5stRong")
         );
     }
 

@@ -19,19 +19,9 @@ public class PasswordValidationTest {
     }
 
     static Stream<Arguments> multiplePasswords(){
-        boolean[] expectedValues = new boolean[5];
-        expectedValues[0] = false;
-        expectedValues[1] = false;
-        expectedValues[2] = false;
-        expectedValues[3] = true;
-        expectedValues[4] = true;
+        boolean[] expectedValues = {false, false, false, true, true};
 
-        String[] passwords = new String[5];
-        passwords[0] = "Cookies";
-        passwords[1] = "ghhjagn89hhj";
-        passwords[2] = "BBHDGLLNNGTT890";
-        passwords[3] = "long89Password";
-        passwords[4] = "67extra5stRong";
+        String[] passwords = {"Cookies", "ghhjagn89hhj", "BBHDGLLNNGTT890", "long89Password", "67extra5stRong"};
 
         return Stream.of(
                 arguments(expectedValues, passwords)

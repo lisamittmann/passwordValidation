@@ -1,8 +1,8 @@
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,19 +12,29 @@ public class PasswordValidationTest {
 
     @ParameterizedTest(name="Password {1} meets all criteria: {0}")
     @MethodSource("password")
-    public void testValidatePassword(boolean expectedResult, String password) {
+    public void testValidatePassword(boolean[] expectedResult, String[] password) {
 
-        assertEquals(expectedResult, PasswordValidation.validatePassword(password));
+        assertTrue(Arrays.equals(expectedResult, PasswordValidation.validatePassword(password)));
     }
 
     static Stream<Arguments> password(){
+
+        boolean[] expectedValues = new boolean[5];
+        expectedValues[0] = false;
+        expectedValues[1] = false;
+        expectedValues[2] = false;
+        expectedValues[3] = true;
+        expectedValues[4] = true;
+
+        String[] passwords = new String[5];
+        passwords[0] = "Cookies";
+        passwords[1] = "ghhjagn89hhj";
+        passwords[2] = "BBHDGLLNNGTT890";
+        passwords[3] = "long89Password";
+        passwords[4] = "67extra5stRong";
+
         return Stream.of(
-                arguments(false, "Cookies"),
-                arguments(false, "longPassword"),
-                arguments(false, "ghhjagn89hhj"),
-                arguments(false, "BBHDGLLNNGTT890"),
-                arguments(true, "long89Password"),
-                arguments(true, "67extra5stRong")
+                arguments(expectedValues, passwords)
         );
     }
 
